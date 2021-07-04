@@ -11,6 +11,7 @@ import me.jellysquid.mods.sodium.client.render.chunk.data.ChunkRenderData;
 import me.jellysquid.mods.sodium.client.render.chunk.format.ChunkModelVertexFormats;
 import me.jellysquid.mods.sodium.client.render.chunk.passes.BlockRenderPass;
 import me.jellysquid.mods.sodium.client.render.chunk.passes.BlockRenderPassManager;
+import me.jellysquid.mods.sodium.client.render.entity.EntityLabelAccessor;
 import me.jellysquid.mods.sodium.client.render.pipeline.context.ChunkRenderCacheShared;
 import me.jellysquid.mods.sodium.client.util.math.FrustumExtended;
 import me.jellysquid.mods.sodium.client.world.ChunkStatusListener;
@@ -351,6 +352,11 @@ public class SodiumWorldRenderer implements ChunkStatusListener {
         }
 
         return false;
+    }
+
+    public boolean shouldCullEntity(Entity entity) {
+        return !this.isEntityVisible(entity) && !(this.client.hasOutline(entity) ||
+                ((EntityLabelAccessor) this.client.getEntityRenderDispatcher().getRenderer(entity)).bridge$hasLabel(entity));
     }
 
     /**
